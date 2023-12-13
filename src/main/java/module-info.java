@@ -6,5 +6,9 @@ module com.example.eindopdracht3 {
     requires org.kordamp.bootstrapfx.core;
 
     opens com.example.eindopdracht to javafx.fxml;
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     exports com.example.eindopdracht;
 }
