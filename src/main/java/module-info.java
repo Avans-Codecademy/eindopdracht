@@ -5,6 +5,6 @@ module com.example.eindopdracht3 {
     requires org.controlsfx.controls;
     requires org.kordamp.bootstrapfx.core;
 
-    opens com.example.eindopdracht3 to javafx.fxml;
-    exports com.example.eindopdracht3;
+    opens com.example.eindopdracht to javafx.fxml;
+    exports com.example.eindopdracht;
 }

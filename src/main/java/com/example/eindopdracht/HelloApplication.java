@@ -1,4 +1,4 @@
-package com.example.eindopdracht3;
+package com.example.eindopdracht;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

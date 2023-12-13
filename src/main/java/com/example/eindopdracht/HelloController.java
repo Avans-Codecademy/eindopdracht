@@ -1,4 +1,4 @@
-package com.example.eindopdracht3;
+package com.example.eindopdracht;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
