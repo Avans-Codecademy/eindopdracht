@@ -1,4 +1,4 @@
-package com.example.eindopdracht;
+package com.example.eindopdracht.database.classes;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
