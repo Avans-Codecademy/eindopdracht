@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Student {
+    private String studentId;
     private String email;
     private String name;
     private LocalDate birthdate;
@@ -13,8 +14,10 @@ public class Student {
     private String country;
     private ArrayList<Cursus> cursusen;
 
-    public Student(String email, String name, LocalDate birthdate, String gender, String address, String city,
+    public Student(String studentID, String email, String name, LocalDate birthdate, String gender, String address,
+            String city,
             String country, ArrayList<Cursus> cursusen) {
+        this.studentId = studentID; // dit moet geautomatiseerd worden
         this.email = email;
         this.name = name;
         this.birthdate = birthdate;
@@ -31,8 +34,13 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student: email" + email + ", name:" + name + ", birthdate:" + birthdate + ", gender:" + gender
+        return "Student: studentID: " + studentId + ", email:" + email + ", name:" + name + ", birthdate:" + birthdate
+                + ", gender:" + gender
                 + ", address:" + address + ", city:" + city + ", country:" + country + ", Cursusen:" + cursusen;
+    }
+
+    public String studentId() {
+        return studentId;
     }
 
     public String getEmail() {
