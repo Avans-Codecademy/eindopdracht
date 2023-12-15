@@ -1,4 +1,4 @@
-package com.example.eindopdracht;
+package com.example.eindopdracht.database.classes;
 
 public class Cursus {
     private String name;
