@@ -2,7 +2,7 @@ package com.example.eindopdracht;
 
 import com.example.eindopdracht.database.classes.Cursus;
 import com.example.eindopdracht.database.classes.Student;
-import com.example.eindopdracht.gui.mainGui;
+import com.example.eindopdracht.gui.MainGui;
 
 import javafx.application.Application;
 
@@ -15,6 +15,6 @@ public class Main {
         System.out.println(jan.toString());
         System.out.println(test.toString());
 
-        Application.launch(mainGui.class);
+        Application.launch(MainGui.class);
     }
 }

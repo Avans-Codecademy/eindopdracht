@@ -24,7 +24,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 
-public class mainGui extends Application {
+public class MainGui extends Application {
 
     private static Scene mainScene;
     private static Scene studentScene;
@@ -93,6 +93,8 @@ public class mainGui extends Application {
         VBox generalStudentInformationBox = generateGeneralInformation();
 
         // hier moet het specifieke studentMenu informatie ding komen
+        String studentIdToGetInformation = null; // Hier moet het student id van de bij behoordene student mee gevenen
+                                                 // worden
         VBox preciseStudentInformatieonBox = generateStudentInformation(
                 "Studenten Id Moet Hier meegegeven worden!!!!");
 
@@ -113,7 +115,6 @@ public class mainGui extends Application {
         try {
             currentStage.setScene(changeTo);
             currentStage.setFullScreen(true);
-            currentStage.setTitle("Codeacademy");
         } catch (Exception e) {
             System.out.println("Switching Scenes failed");
         }
@@ -184,20 +185,9 @@ public class mainGui extends Application {
 
     // hier moet de standaard informatie gegenereerd worden!
     private VBox generateGeneralInformation() {
-        VBox generalUserInformationBox = new VBox();
-        HBox studentActionButton = createStudentActionButtons();
+        VBox userInformationVBox = new VBox();
 
-        HBox tijdelijkeInvullingA = new HBox();
-        tijdelijkeInvullingA.getChildren().add(new Label("Iets qua data A"));
-        tijdelijkeInvullingA.getChildren().add(new Label("Iets qua data A"));
-        HBox tijdelijkeInvullingB = new HBox();
-        tijdelijkeInvullingA.getChildren().add(new Label("Iets qua data B"));
-        tijdelijkeInvullingA.getChildren().add(new Label("Iets qua data B"));
-        generalUserInformationBox.getChildren().add(studentActionButton);
-        generalUserInformationBox.getChildren().add(tijdelijkeInvullingA);
-        generalUserInformationBox.getChildren().add(tijdelijkeInvullingB);
-
-        return generalUserInformationBox;
+        return userInformationVBox;
     }
 
     private HBox createStudentActionButtons() {
@@ -221,18 +211,8 @@ public class mainGui extends Application {
         deleteStudentButton.setMinWidth(250);
         deleteStudentButton.setMinHeight(50);
 
-        Button generalOverviewButton = new Button("General Overview");
-        generalOverviewButton
-                .setBackground(
-                        new Background(
-                                new BackgroundFill(
-                                        Color.LIGHTBLUE, new CornerRadii(0), Insets.EMPTY)));
-        generalOverviewButton.setMinWidth(250);
-        generalOverviewButton.setMinHeight(50);
-
         hboxToReturn.getChildren().add(addStudentButton);
         hboxToReturn.getChildren().add(deleteStudentButton);
-        hboxToReturn.getChildren().add(generalOverviewButton);
         hboxToReturn.setPadding(new Insets(5, 0, 5, 0));
 
         return hboxToReturn;
