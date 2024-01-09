@@ -18,9 +18,9 @@ public class MainApplication extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         // Launch from fxml
-        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
+        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("students-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setTitle("Codecademy");
         stage.setScene(scene);
         stage.show();
     }

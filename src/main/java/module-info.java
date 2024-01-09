@@ -9,4 +9,7 @@ module com.example.eindopdracht {
 
     opens com.example.eindopdracht to javafx.fxml;
     exports com.example.eindopdracht;
+    exports com.example.eindopdracht.controllers;
+    opens com.example.eindopdracht.controllers to javafx.fxml;
+    opens com.example.eindopdracht.database.models;
 }
