@@ -3,18 +3,20 @@ package com.example.eindopdracht.database.classes;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import com.example.eindopdracht.database.classes.Enums.Gender;
+
 public class Student {
     private String email;
     private String name;
     private LocalDate birthdate;
-    private String gender;
+    private Gender gender;
     private String address;
     private String city;
     private String country;
-    private ArrayList<Cursus> cursusen;
+    private ArrayList<Course> courses;
 
-    public Student(String email, String name, LocalDate birthdate, String gender, String address, String city,
-            String country, ArrayList<Cursus> cursusen) {
+    public Student(String email, String name, LocalDate birthdate, Gender gender, String address, String city,
+            String country, ArrayList<Course> courses) {
         this.email = email;
         this.name = name;
         this.birthdate = birthdate;
@@ -22,17 +24,17 @@ public class Student {
         this.address = address;
         this.city = city;
         this.country = country;
-        this.cursusen = new ArrayList<Cursus>();
+        this.courses = new ArrayList<Course>();
     }
 
-    public void enroll(Cursus name) {
-        cursusen.add(name);
+    public void enroll(Course name) {
+        courses.add(name);
     }
 
     @Override
     public String toString() {
         return "Student: email" + email + ", name:" + name + ", birthdate:" + birthdate + ", gender:" + gender
-                + ", address:" + address + ", city:" + city + ", country:" + country + ", Cursusen:" + cursusen;
+                + ", address:" + address + ", city:" + city + ", country:" + country + ", Cursusen:" + courses;
     }
 
     public String getEmail() {
@@ -59,11 +61,11 @@ public class Student {
         this.birthdate = birthdate;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 
@@ -91,8 +93,8 @@ public class Student {
         this.country = country;
     }
 
-    public ArrayList<Cursus> getCursusen() {
-        return cursusen;
+    public ArrayList<Course> getCursusen() {
+        return courses;
     }
 
 }
