@@ -9,14 +9,13 @@ import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
 import java.sql.*;
+import java.time.LocalDate;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class StudentsController implements Initializable {
@@ -49,7 +48,7 @@ public class StudentsController implements Initializable {
     @FXML
     private TextField studentAddress;
     @FXML
-    private TextField studentBirthday;
+    private DatePicker studentBirthday;
     @FXML
     private TextField studentCity;
     @FXML
@@ -65,10 +64,16 @@ public class StudentsController implements Initializable {
     @FXML
     private TextField studentHouseNumber;
 
-    ObservableList<StudentModel> studentModelObservableList = FXCollections.observableArrayList();
+    private int selectedIndex;
+    private int selectedId;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        loadTable();
+    }
+
+    public void loadTable() {
+        ObservableList<StudentModel> studentsList = FXCollections.observableArrayList();
         Connection connection = ConnectionManager.getConnection();
 
         // SQL query
@@ -84,7 +89,7 @@ public class StudentsController implements Initializable {
                 Integer queryStudentId = queryOutput.getInt("studentId");
                 String queryStudentEmail = queryOutput.getString("studentEmail");
                 String queryStudentName = queryOutput.getString("name");
-                Date queryStudentBirthday = Date.valueOf(queryOutput.getString("birthday"));
+                LocalDate queryStudentBirthday = LocalDate.parse(queryOutput.getString("birthday"));
                 String queryStudentGender = queryOutput.getString("gender");
                 String queryStudentAddress = queryOutput.getString("address");
                 String queryStudentCity = queryOutput.getString("city");
@@ -93,7 +98,7 @@ public class StudentsController implements Initializable {
                 Integer queryStudentHouseNumber = queryOutput.getInt("houseNumber");
 
                 // Populate the student observe list
-                studentModelObservableList.add(new StudentModel(queryStudentId, queryStudentEmail, queryStudentName, queryStudentBirthday, queryStudentGender, queryStudentAddress, queryStudentCity, queryStudentCountry, queryStudentPostcode, queryStudentHouseNumber));
+                studentsList.add(new StudentModel(queryStudentId, queryStudentEmail, queryStudentName, queryStudentBirthday, queryStudentGender, queryStudentAddress, queryStudentCity, queryStudentCountry, queryStudentPostcode, queryStudentHouseNumber));
             }
 
             // Link the database columns with the actual table columns
@@ -109,7 +114,7 @@ public class StudentsController implements Initializable {
             houseNumberCol.setCellValueFactory(new PropertyValueFactory<>("houseNumber"));
 
             // Create filtered list
-            FilteredList<StudentModel> filteredData = new FilteredList<>(studentModelObservableList, b -> true);
+            FilteredList<StudentModel> filteredData = new FilteredList<>(studentsList, b -> true);
 
             // Search through the students
             searchField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -137,19 +142,38 @@ public class StudentsController implements Initializable {
             // Load the data into the table
             studentsTableView.setItems(sortedData);
         } catch (SQLException exception) {
-            exception.printStackTrace();
+            System.out.println(exception.getMessage());
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Error while retrieving data from database!");
+            alert.show();
         }
+
+        // Add table on mouse click event
+        studentsTableView.setRowFactory(tv -> {
+            TableRow<StudentModel> myRow = new TableRow<>();
+            myRow.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 1 && (!myRow.isEmpty())) {
+                    // Set selected ID
+                    selectedIndex = studentsTableView.getSelectionModel().getSelectedIndex();
+                    selectedId = Integer.parseInt(String.valueOf(studentsTableView.getItems().get(selectedIndex).getStudentId()));
+                }
+            });
+
+            return myRow;
+        });
     }
 
     @FXML
     void addStudent(ActionEvent event) {
-        String email, name, birthday, gender, address, city, country, postcode;
+        String email, name, gender, address, city, country, postcode;
         int houseNumber;
+        LocalDate birthday;
 
         // Get all the information from the form
         email = studentEmail.getText();
         name = studentName.getText();
-        birthday = studentBirthday.getText();
+        birthday = studentBirthday.getValue();
         gender = studentGender.getText();
         address = studentAddress.getText();
         city = studentCity.getText();
@@ -161,7 +185,7 @@ public class StudentsController implements Initializable {
         Connection connection = ConnectionManager.getConnection();
 
         // SQL query
-        String query = "INSERT INTO Student(studentId, studentEmail,name,birthday,gender,address,city,country,postcode,houseNumber) VALUES(2, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        String query = "INSERT INTO Student(studentId, studentEmail,name,birthday,gender,address,city,country,postcode,houseNumber) VALUES(3, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
         try {
             // Execute the SQL query
@@ -187,7 +211,7 @@ public class StudentsController implements Initializable {
             // Reset values of the inputs
             studentEmail.setText("");
             studentName.setText("");
-            studentBirthday.setText("");
+            studentBirthday.setValue(null);
             studentGender.setText("");
             studentAddress.setText("");
             studentCity.setText("");
@@ -195,8 +219,72 @@ public class StudentsController implements Initializable {
             studentPostcode.setText("");
             studentHouseNumber.setText("");
 
+            // Reload table
+            loadTable();
+
         } catch (SQLException exception) {
-            exception.printStackTrace();
+            System.out.println(exception.getMessage());
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Error while creating student in database!");
+            alert.show();
+        }
+    }
+
+    @FXML
+    void editStudent(ActionEvent event) {
+        if (selectedId == 0) {
+            return;
+        }
+
+        // Fill the fields with the selected Student
+        studentEmail.setText(studentsTableView.getItems().get(selectedIndex).getStudentEmail());
+        studentName.setText(studentsTableView.getItems().get(selectedIndex).getName());
+        studentBirthday.setValue(studentsTableView.getItems().get(selectedIndex).getBirthday());
+        studentGender.setText(studentsTableView.getItems().get(selectedIndex).getGender());
+        studentAddress.setText(studentsTableView.getItems().get(selectedIndex).getAddress());
+        studentCity.setText(studentsTableView.getItems().get(selectedIndex).getCity());
+        studentCountry.setText(studentsTableView.getItems().get(selectedIndex).getCountry());
+        studentPostcode.setText(studentsTableView.getItems().get(selectedIndex).getPostcode());
+        studentHouseNumber.setText(String.valueOf(studentsTableView.getItems().get(selectedIndex).getHouseNumber()));
+    }
+
+    @FXML
+    void deleteStudent(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText("Are you sure you want to delete this Student?");
+        Optional<ButtonType> result = alert.showAndWait();
+
+        // If user click "OK", delete the Student
+        if (result.get() == ButtonType.OK) {
+            Connection connection = ConnectionManager.getConnection();
+
+            // SQL query
+            String query = "DELETE FROM Student WHERE StudentId = ?;";
+
+            try {
+                PreparedStatement statement = connection.prepareStatement(query);
+                statement.setInt(1, selectedId);
+                statement.executeUpdate();
+
+                selectedId = 0;
+                selectedIndex = 0;
+
+                // Send alert to the user
+                Alert alert3 = new Alert(Alert.AlertType.INFORMATION);
+                alert3.setHeaderText("Student successfully deleted!");
+
+                alert3.showAndWait();
+
+                // Reload table
+                loadTable();
+            } catch (SQLException exception) {
+                System.out.println(exception.getMessage());
+
+                Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
+                alert2.setHeaderText("Error while deleting student in database!");
+                alert2.show();
+            }
         }
     }
 }

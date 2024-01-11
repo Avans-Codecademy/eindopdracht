@@ -1,12 +1,13 @@
 package com.example.eindopdracht.database.models;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class StudentModel {
     Integer studentId;
     String studentEmail;
     String name;
-    Date birthday;
+    LocalDate birthday;
     String gender;
     String address;
     String city;
@@ -14,7 +15,7 @@ public class StudentModel {
     String postcode;
     Integer houseNumber;
 
-    public StudentModel(Integer studentId, String studentEmail, String name, Date birthday, String gender, String address, String city, String country, String postcode, Integer houseNumber) {
+    public StudentModel(Integer studentId, String studentEmail, String name, LocalDate birthday, String gender, String address, String city, String country, String postcode, Integer houseNumber) {
         this.studentId = studentId;
         this.studentEmail = studentEmail;
         this.name = name;
@@ -51,11 +52,11 @@ public class StudentModel {
         this.name = name;
     }
 
-    public Date getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 
