@@ -1,3 +1,5 @@
+package com.example.eindopdracht.database.classes;
+
 package com.example.eindopdracht;
 
 import javafx.application.Application;
