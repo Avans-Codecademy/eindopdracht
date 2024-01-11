@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="552.0" prefWidth="994.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.eindopdracht.controllers.StudentsController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="775.0" prefWidth="1181.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.eindopdracht.controllers.StudentsController">
    <left>
       <VBox prefHeight="400.0" prefWidth="111.0" spacing="16.0" BorderPane.alignment="CENTER">
          <children>
@@ -43,10 +43,13 @@
          <children>
             <HBox prefHeight="41.0" prefWidth="729.0" spacing="12.0">
                <children>
-                  <Button mnemonicParsing="false" text="Create Student" />
+                  <Button mnemonicParsing="false" text="Edit Student" />
                   <Button mnemonicParsing="false" text="Delete Student" />
-                  <TextField fx:id="searchField" prefHeight="25.0" prefWidth="296.0" promptText="Search students..." />
+                  <TextField fx:id="searchField" prefHeight="25.0" prefWidth="324.0" promptText="Search students..." />
                </children>
+               <VBox.margin>
+                  <Insets bottom="8.0" />
+               </VBox.margin>
             </HBox>
             <TableView fx:id="studentsTableView" prefHeight="414.0" prefWidth="729.0">
               <columns>
@@ -58,8 +61,31 @@
                   <TableColumn fx:id="addressCol" prefWidth="172.0" text="Address" />
                   <TableColumn fx:id="cityCol" prefWidth="141.0" text="City" />
                   <TableColumn fx:id="countryCol" prefWidth="129.0" text="Country" />
+                  <TableColumn fx:id="postcodeCol" prefWidth="99.0" text="Postcode" />
+                  <TableColumn fx:id="houseNumberCol" prefWidth="87.0" text="House Number" />
               </columns>
             </TableView>
+            <HBox prefHeight="391.0" prefWidth="1070.0">
+               <children>
+                  <VBox prefHeight="216.0" prefWidth="471.0" spacing="8.0">
+                     <children>
+                        <TextField fx:id="studentEmail" promptText="Email" />
+                        <TextField fx:id="studentName" promptText="Name" />
+                        <TextField fx:id="studentBirthday" promptText="Birthday" />
+                        <TextField fx:id="studentGender" promptText="Gender" />
+                        <TextField fx:id="studentAddress" promptText="Address" />
+                        <TextField fx:id="studentCity" promptText="City" />
+                        <TextField fx:id="studentCountry" promptText="Country" />
+                        <TextField fx:id="studentPostcode" promptText="Postcode" />
+                        <TextField fx:id="studentHouseNumber" promptText="House Number" />
+                        <Button mnemonicParsing="false" onAction="#addStudent" text="Create Student" />
+                     </children>
+                     <HBox.margin>
+                        <Insets bottom="16.0" top="16.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+            </HBox>
          </children>
       </VBox>
    </center>

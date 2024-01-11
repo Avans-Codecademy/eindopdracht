@@ -6,18 +6,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ResourceBundle;
 
 public class StudentsController implements Initializable {
@@ -41,7 +40,30 @@ public class StudentsController implements Initializable {
     @FXML
     private TableColumn<StudentModel, String> countryCol;
     @FXML
+    private TableColumn<StudentModel, String> postcodeCol;
+    @FXML
+    private TableColumn<StudentModel, String> houseNumberCol;
+    @FXML
     private TextField searchField;
+
+    @FXML
+    private TextField studentAddress;
+    @FXML
+    private TextField studentBirthday;
+    @FXML
+    private TextField studentCity;
+    @FXML
+    private TextField studentCountry;
+    @FXML
+    private TextField studentEmail;
+    @FXML
+    private TextField studentGender;
+    @FXML
+    private TextField studentName;
+    @FXML
+    private TextField studentPostcode;
+    @FXML
+    private TextField studentHouseNumber;
 
     ObservableList<StudentModel> studentModelObservableList = FXCollections.observableArrayList();
 
@@ -50,7 +72,7 @@ public class StudentsController implements Initializable {
         Connection connection = ConnectionManager.getConnection();
 
         // SQL query
-        String query = "SELECT studentId, studentEmail, name, birthday, gender, address, city, country FROM Student";
+        String query = "SELECT studentId, studentEmail, name, birthday, gender, address, city, country, postcode, houseNumber FROM Student";
 
         try {
             // Execute the SQL query
@@ -62,14 +84,16 @@ public class StudentsController implements Initializable {
                 Integer queryStudentId = queryOutput.getInt("studentId");
                 String queryStudentEmail = queryOutput.getString("studentEmail");
                 String queryStudentName = queryOutput.getString("name");
-                String queryStudentBirthday = queryOutput.getString("birthday");
+                Date queryStudentBirthday = Date.valueOf(queryOutput.getString("birthday"));
                 String queryStudentGender = queryOutput.getString("gender");
                 String queryStudentAddress = queryOutput.getString("address");
                 String queryStudentCity = queryOutput.getString("city");
                 String queryStudentCountry = queryOutput.getString("country");
+                String queryStudentPostcode = queryOutput.getString("postcode");
+                Integer queryStudentHouseNumber = queryOutput.getInt("houseNumber");
 
                 // Populate the student observe list
-                studentModelObservableList.add(new StudentModel(queryStudentId, queryStudentEmail, queryStudentName, queryStudentBirthday, queryStudentGender, queryStudentAddress, queryStudentCity, queryStudentCountry));
+                studentModelObservableList.add(new StudentModel(queryStudentId, queryStudentEmail, queryStudentName, queryStudentBirthday, queryStudentGender, queryStudentAddress, queryStudentCity, queryStudentCountry, queryStudentPostcode, queryStudentHouseNumber));
             }
 
             // Link the database columns with the actual table columns
@@ -81,6 +105,8 @@ public class StudentsController implements Initializable {
             addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
             cityCol.setCellValueFactory(new PropertyValueFactory<>("city"));
             countryCol.setCellValueFactory(new PropertyValueFactory<>("country"));
+            postcodeCol.setCellValueFactory(new PropertyValueFactory<>("postcode"));
+            houseNumberCol.setCellValueFactory(new PropertyValueFactory<>("houseNumber"));
 
             // Create filtered list
             FilteredList<StudentModel> filteredData = new FilteredList<>(studentModelObservableList, b -> true);
@@ -110,6 +136,65 @@ public class StudentsController implements Initializable {
 
             // Load the data into the table
             studentsTableView.setItems(sortedData);
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    @FXML
+    void addStudent(ActionEvent event) {
+        String email, name, birthday, gender, address, city, country, postcode;
+        int houseNumber;
+
+        // Get all the information from the form
+        email = studentEmail.getText();
+        name = studentName.getText();
+        birthday = studentBirthday.getText();
+        gender = studentGender.getText();
+        address = studentAddress.getText();
+        city = studentCity.getText();
+        country = studentCountry.getText();
+        postcode = studentPostcode.getText();
+        houseNumber = Integer.parseInt(studentHouseNumber.getText());
+
+        // Create the student in the database
+        Connection connection = ConnectionManager.getConnection();
+
+        // SQL query
+        String query = "INSERT INTO Student(studentId, studentEmail,name,birthday,gender,address,city,country,postcode,houseNumber) VALUES(2, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+
+        try {
+            // Execute the SQL query
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, email);
+            statement.setString(2, name);
+            statement.setDate(3, Date.valueOf(birthday));
+            statement.setString(4, gender);
+            statement.setString(5, address);
+            statement.setString(6, city);
+            statement.setString(7, country);
+            statement.setString(8, postcode);
+            statement.setInt(9, houseNumber);
+
+            statement.executeUpdate();
+
+            // Send alert to the user
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Student successfully created!");
+
+            alert.showAndWait();
+
+            // Reset values of the inputs
+            studentEmail.setText("");
+            studentName.setText("");
+            studentBirthday.setText("");
+            studentGender.setText("");
+            studentAddress.setText("");
+            studentCity.setText("");
+            studentCountry.setText("");
+            studentPostcode.setText("");
+            studentHouseNumber.setText("");
+
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
