@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="775.0" prefWidth="1467.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.eindopdracht.controllers.OverviewsController">
+   <left>
+      <VBox prefHeight="718.0" prefWidth="141.0" spacing="16.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#switchToStudents" prefHeight="25.0" prefWidth="139.0" style="-fx-background-color: #67BED9;" text="Students" />
+            <Button mnemonicParsing="false" onAction="#switchToCourses" prefHeight="25.0" prefWidth="152.0" style="-fx-background-color: #67BED9;" text="Courses" />
+            <Button mnemonicParsing="false" onAction="#switchToEntries" prefHeight="25.0" prefWidth="187.0" style="-fx-background-color: #67BED9;" text="Entries" />
+            <Button mnemonicParsing="false" onAction="#switchToCertifications" prefHeight="25.0" prefWidth="161.0" style="-fx-background-color: #67BED9;" text="Certifications" />
+            <Button layoutX="18.0" layoutY="133.0" mnemonicParsing="false" onAction="#switchToOverviews" prefHeight="25.0" prefWidth="161.0" style="-fx-background-color: #67BED9;" text="Overviews" />
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets bottom="8.0" left="8.0" right="8.0" />
+         </padding>
+         <BorderPane.margin>
+            <Insets right="8.0" />
+         </BorderPane.margin>
+      </VBox>
+   </left>
+   <top>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Overviews" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="34.0" />
+         </font>
+         <BorderPane.margin>
+            <Insets bottom="8.0" top="8.0" />
+         </BorderPane.margin>
+      </Text>
+   </top>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" spacing="16.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox prefHeight="56.0" prefWidth="1318.0" spacing="4.0">
+               <children>
+                  <Label text="Procentage of students that are signed up">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="gender" onAction="#selectGender" prefWidth="150.0" promptText="Select gender" />
+                  <HBox prefHeight="12.0" prefWidth="1318.0" spacing="2.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Percentage: " />
+                        <Text fx:id="percentageSignedUp" strokeType="OUTSIDE" strokeWidth="0.0" text="(select a gender)" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="52.0" prefWidth="1318.0" spacing="4.0">
+               <children>
+                  <Label text="Average progress per module">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="courseForProgress" onAction="#selectCourseForProgress" prefWidth="150.0" promptText="Select Course" />
+                  <Text fx:id="averageProgressCourse" strokeType="OUTSIDE" strokeWidth="0.0" text="(select a course)" />
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="93.0" prefHeight="52.0" prefWidth="1318.0" spacing="4.0">
+               <children>
+                  <Label text="Average progress per module">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="8.0">
+                     <children>
+                        <ComboBox fx:id="studentForModule" prefWidth="150.0" promptText="Select Student" />
+                        <ComboBox fx:id="courseForModule" layoutX="10.0" layoutY="10.0" onAction="#selectCourseForModule" prefWidth="150.0" promptText="Select Course" />
+                     </children>
+                  </HBox>
+                  <Text fx:id="averageProgressStudent" strokeType="OUTSIDE" strokeWidth="0.0" text="(select a student and course)" />
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="93.0" prefHeight="52.0" prefWidth="1318.0" spacing="4.0">
+               <children>
+                  <Label text="Obtained certificates">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="studentCertificates" onAction="#selectStudentCertificates" prefWidth="150.0" promptText="Select Student" />
+                  <Text fx:id="obtainedCertificates" strokeType="OUTSIDE" strokeWidth="0.0" text="(select a student)" />
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="259.0" prefHeight="52.0" prefWidth="1318.0" spacing="4.0">
+               <children>
+                  <Label text="Top 3 most watched webcasts">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Text fx:id="mostWatched1" strokeType="OUTSIDE" strokeWidth="0.0" text="1. " />
+                  <Text fx:id="mostWatched2" layoutX="10.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2." />
+                  <Text fx:id="mostWatched3" layoutX="10.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3." />
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="342.0" prefHeight="52.0" prefWidth="1318.0" spacing="4.0">
+               <children>
+                  <Label text="Top 3 courses with most issued certificates">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Text fx:id="mostIssued1" strokeType="OUTSIDE" strokeWidth="0.0" text="1. " />
+                  <Text fx:id="mostIssued2" layoutX="10.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2." />
+                  <Text fx:id="mostIssued3" layoutX="10.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3." />
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="93.0" prefHeight="52.0" prefWidth="1318.0" spacing="4.0">
+               <children>
+                  <Label text="Remmended courses">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="courseForRecommended" onAction="#selectCourseForRecommended" prefWidth="150.0" promptText="Select Course" />
+                  <Text fx:id="recommendedCourses" strokeType="OUTSIDE" strokeWidth="0.0" text="(select a course)" />
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="534.0" prefHeight="52.0" prefWidth="1318.0" spacing="4.0">
+               <children>
+                  <Label text="Number of students who completed the course">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="courseCompleted" onAction="#selectCourseCompleted" prefWidth="150.0" promptText="Select Course" />
+                  <Text fx:id="numberCompletedCourses" strokeType="OUTSIDE" strokeWidth="0.0" text="(select a course)" />
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

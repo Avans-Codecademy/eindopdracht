@@ -19,6 +19,7 @@
             <Button mnemonicParsing="false" onAction="#switchToCourses" prefHeight="25.0" prefWidth="152.0" style="-fx-background-color: #67BED9;" text="Courses" />
             <Button mnemonicParsing="false" onAction="#switchToEntries" prefHeight="25.0" prefWidth="187.0" style="-fx-background-color: #67BED9;" text="Entries" />
             <Button mnemonicParsing="false" onAction="#switchToCertifications" prefHeight="25.0" prefWidth="161.0" style="-fx-background-color: #67BED9;" text="Certifications" />
+            <Button layoutX="18.0" layoutY="133.0" mnemonicParsing="false" onAction="#switchToOverviews" prefHeight="25.0" prefWidth="161.0" style="-fx-background-color: #67BED9;" text="Overviews" />
          </children>
          <opaqueInsets>
             <Insets />

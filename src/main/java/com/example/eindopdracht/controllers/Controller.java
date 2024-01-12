@@ -31,6 +31,10 @@ public class Controller {
         switchScene(event, "certifications-view.fxml");
     }
 
+    public void switchToOverviews(ActionEvent event) throws IOException {
+        switchScene(event, "overviews-view.fxml");
+    }
+
     private void switchScene(ActionEvent event, String fxmlPath) throws IOException {
         root = FXMLLoader.load(MainApplication.class.getResource(fxmlPath));
         stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
