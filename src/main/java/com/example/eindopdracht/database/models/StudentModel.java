@@ -1,16 +1,20 @@
-package com.example.eindopdracht.database.classes;
+package com.example.eindopdracht.database.models;
 
-public class Student {
+import java.time.LocalDate;
+
+public class StudentModel {
     Integer studentId;
     String studentEmail;
     String name;
-    String birthday;
+    LocalDate birthday;
     String gender;
     String address;
     String city;
     String country;
+    String postcode;
+    Integer houseNumber;
 
-    public Student(Integer studentId, String studentEmail, String name, String birthday, String gender, String address, String city, String country) {
+    public StudentModel(Integer studentId, String studentEmail, String name, LocalDate birthday, String gender, String address, String city, String country, String postcode, Integer houseNumber) {
         this.studentId = studentId;
         this.studentEmail = studentEmail;
         this.name = name;
@@ -19,69 +23,87 @@ public class Student {
         this.address = address;
         this.city = city;
         this.country = country;
+        this.postcode = postcode;
+        this.houseNumber = houseNumber;
     }
 
     public Integer getStudentId() {
         return studentId;
     }
 
-    public String getStudentEmail() {
-        return studentEmail;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getBirthday() {
-        return birthday;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
     public void setStudentId(Integer studentId) {
         this.studentId = studentId;
+    }
+
+    public String getStudentEmail() {
+        return studentEmail;
     }
 
     public void setStudentEmail(String studentEmail) {
         this.studentEmail = studentEmail;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setBirthday(String birthday) {
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
+    }
+
+    public String getGender() {
+        return gender;
     }
 
     public void setGender(String gender) {
         this.gender = gender;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getCity() {
+        return city;
     }
 
     public void setCity(String city) {
         this.city = city;
     }
 
+    public String getCountry() {
+        return country;
+    }
+
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public String getPostcode() {
+        return postcode;
+    }
+
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
+    }
+
+    public Integer getHouseNumber() {
+        return houseNumber;
+    }
+
+    public void setHouseNumber(Integer houseNumber) {
+        this.houseNumber = houseNumber;
     }
 }

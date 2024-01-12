@@ -1,10 +1,10 @@
-package com.example.eindopdracht.database.classes;
+package com.example.eindopdracht.database.models;
 
-public class Cursus {
+public class CursusModel {
     private String name;
     private String subject;
 
-    public Cursus(String name, String subject) {
+    public CursusModel(String name, String subject) {
         this.name = name;
         this.subject = subject;
     }
