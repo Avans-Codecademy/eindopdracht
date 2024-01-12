@@ -150,7 +150,7 @@ public class EntriesController implements Initializable {
             // Create filtered list
             FilteredList<Entry> filteredData = new FilteredList<>(entriesList, b -> true);
 
-            // Search through the courses
+            // Search through the entries
             searchField.textProperty().addListener((observable, oldValue, newValue) -> {
                 filteredData.setPredicate(entryModel -> {
                     // Don't search when value is empty
@@ -256,7 +256,7 @@ public class EntriesController implements Initializable {
         createEntryBtn.setVisible(false);
         updateEntryBtn.setVisible(true);
 
-        // Fill the fields with the selected Course
+        // Fill the fields with the selected Entry
         entryDate.setValue(entriesTableView.getItems().get(selectedIndex).getEntryDate());
         studentEmail.setValue(entriesTableView.getItems().get(selectedIndex).getStudentEmail());
         courseName.setValue(entriesTableView.getItems().get(selectedIndex).getCourseName());
@@ -272,7 +272,7 @@ public class EntriesController implements Initializable {
         studentEmail = this.studentEmail.getValue();
         courseName = this.courseName.getValue();
 
-        // Create the course in the database
+        // Create the entry in the database
         Connection connection = ConnectionManager.getConnection();
 
         // SQL query
