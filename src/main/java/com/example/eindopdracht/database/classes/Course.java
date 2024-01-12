@@ -21,8 +21,8 @@ public class Course {
         this.interestingCourses = new ArrayList<Course>();
     }
 
-    public void addmodule(Module contentitemID) {
-        modules.add(contentitemID);
+    public void addModule(Module contentItemID) {
+        modules.add(contentItemID);
     }
 
      public void addInterestingCourses(Course name) {
@@ -33,7 +33,7 @@ public class Course {
         return introductionText;
     }
 
-    public void setIntroductionText(String introductiontext) {
+    public void setIntroductionText(String introductionText) {
         this.introductionText = introductionText;
     }
 
