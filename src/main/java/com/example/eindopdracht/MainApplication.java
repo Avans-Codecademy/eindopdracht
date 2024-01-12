@@ -12,7 +12,7 @@ public class MainApplication extends Application {
 //        jan.enroll(test);
 //        System.out.println(jan.toString());
 //        System.out.println(test.toString());
-        launch();
+        Application.launch();
     }
 
     @Override
