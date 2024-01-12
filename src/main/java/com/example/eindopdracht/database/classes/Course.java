@@ -12,6 +12,7 @@ public class Course {
     private Level level;
     private ArrayList<Module> modules;
     private ArrayList<Course> interestingCourses;
+    //by checking every module in course and checking if the boolean is true(meaning its completed) it generates an certificate for user
     private HashMap<Module,Boolean> completed;
 
     public Course(String name, String subject, String introductiontext, Level level, ArrayList<Module> modules, ArrayList<Course> interestingCourses) {
