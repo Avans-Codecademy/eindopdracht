@@ -228,10 +228,10 @@ public class OverviewsController extends Controller implements Initializable {
         Connection connection = ConnectionManager.getConnection();
 
         // Get the total amount of signed courses
-        String query1 = "SELECT COUNT(StudentID) AS countTotaal FROM Student WHERE Student.StudentEmail IN (SELECT StudentEmail FROM Entry) AND Student.Gender = ? ;";
+        String query1 = "SELECT COUNT(StudentID) AS countBehaald FROM Student WHERE Student.Gender = ?";
 
         // Get the total amount of signed courses for the selected gender
-        String query2 = "SELECT COUNT(StudentId) AS countBehaald FROM Student WHERE Student.StudentEmail IN (SELECT StudentEmail FROM Entry WHERE Entry.EntryId IN (SELECT EntryId FROM ObtainedCertification) AND Student.Gender = ? );";
+        String query2 = "SELECT COUNT(StudentID) AS countBehaald FROM Student WHERE Student.Gender = ? AND Student.StudentEmail IN (SELECT Entry.StudentEmail FROM Entry);";
 
         try {
             // Execute the SQL query
