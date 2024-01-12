@@ -2,8 +2,6 @@ package com.example.eindopdracht.controllers;
 
 import com.example.eindopdracht.database.ConnectionManager;
 import com.example.eindopdracht.database.classes.Entry;
-import com.example.eindopdracht.database.classes.Enums.Level;
-import com.example.eindopdracht.database.models.StudentModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;

@@ -1,7 +1,8 @@
 package com.example.eindopdracht.controllers;
 
 import com.example.eindopdracht.database.ConnectionManager;
-import com.example.eindopdracht.database.models.StudentModel;
+import com.example.eindopdracht.database.classes.Enums.Gender;
+import com.example.eindopdracht.database.classes.Student;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -21,27 +22,27 @@ import java.util.ResourceBundle;
 public class StudentsController extends Controller implements Initializable {
 
     @FXML
-    private TableView<StudentModel> studentsTableView;
+    private TableView<Student> studentsTableView;
     @FXML
-    private TableColumn<StudentModel, Integer> studentIdCol;
+    private TableColumn<Student, Integer> studentIdCol;
     @FXML
-    private TableColumn<StudentModel, String> studentEmailCol;
+    private TableColumn<Student, String> studentEmailCol;
     @FXML
-    private TableColumn<StudentModel, String> nameCol;
+    private TableColumn<Student, String> nameCol;
     @FXML
-    private TableColumn<StudentModel, String> birthdayCol;
+    private TableColumn<Student, String> birthdayCol;
     @FXML
-    private TableColumn<StudentModel, String> genderCol;
+    private TableColumn<Student, String> genderCol;
     @FXML
-    private TableColumn<StudentModel, String> addressCol;
+    private TableColumn<Student, String> addressCol;
     @FXML
-    private TableColumn<StudentModel, String> cityCol;
+    private TableColumn<Student, String> cityCol;
     @FXML
-    private TableColumn<StudentModel, String> countryCol;
+    private TableColumn<Student, String> countryCol;
     @FXML
-    private TableColumn<StudentModel, String> postcodeCol;
+    private TableColumn<Student, String> postcodeCol;
     @FXML
-    private TableColumn<StudentModel, String> houseNumberCol;
+    private TableColumn<Student, String> houseNumberCol;
     @FXML
     private TextField searchField;
     @FXML
@@ -60,7 +61,7 @@ public class StudentsController extends Controller implements Initializable {
     @FXML
     private TextField studentEmail;
     @FXML
-    private ComboBox<String> studentGender;
+    private ComboBox<Gender> studentGender;
     @FXML
     private TextField studentName;
     @FXML
@@ -74,13 +75,13 @@ public class StudentsController extends Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Set items for gender ComboBox
-        studentGender.setItems(FXCollections.observableArrayList("MALE", "FEMALE", "OTHER"));
+        studentGender.setItems(FXCollections.observableArrayList(Gender.values()));
 
         loadTable();
     }
 
     public void loadTable() {
-        ObservableList<StudentModel> studentsList = FXCollections.observableArrayList();
+        ObservableList<Student> studentsList = FXCollections.observableArrayList();
         Connection connection = ConnectionManager.getConnection();
 
         // SQL query
@@ -97,20 +98,20 @@ public class StudentsController extends Controller implements Initializable {
                 String queryStudentEmail = queryOutput.getString("studentEmail");
                 String queryStudentName = queryOutput.getString("name");
                 LocalDate queryStudentBirthday = LocalDate.parse(queryOutput.getString("birthday"));
-                String queryStudentGender = queryOutput.getString("gender");
+                Gender queryStudentGender = Gender.valueOf(queryOutput.getString("gender").trim());
                 String queryStudentAddress = queryOutput.getString("address");
                 String queryStudentCity = queryOutput.getString("city");
                 String queryStudentCountry = queryOutput.getString("country");
                 String queryStudentPostcode = queryOutput.getString("postcode");
-                Integer queryStudentHouseNumber = queryOutput.getInt("houseNumber");
+                String queryStudentHouseNumber = queryOutput.getString("houseNumber");
 
                 // Populate the student observe list
-                studentsList.add(new StudentModel(queryStudentId, queryStudentEmail, queryStudentName, queryStudentBirthday, queryStudentGender, queryStudentAddress, queryStudentCity, queryStudentCountry, queryStudentPostcode, queryStudentHouseNumber));
+                studentsList.add(new Student(queryStudentId, queryStudentEmail, queryStudentName, queryStudentBirthday, queryStudentGender, queryStudentAddress, queryStudentCity, queryStudentCountry, queryStudentPostcode, queryStudentHouseNumber));
             }
 
             // Link the database columns with the actual table columns
             studentIdCol.setCellValueFactory(new PropertyValueFactory<>("studentId"));
-            studentEmailCol.setCellValueFactory(new PropertyValueFactory<>("studentEmail"));
+            studentEmailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
             nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
             birthdayCol.setCellValueFactory(new PropertyValueFactory<>("birthday"));
             genderCol.setCellValueFactory(new PropertyValueFactory<>("gender"));
@@ -121,7 +122,7 @@ public class StudentsController extends Controller implements Initializable {
             houseNumberCol.setCellValueFactory(new PropertyValueFactory<>("houseNumber"));
 
             // Create filtered list
-            FilteredList<StudentModel> filteredData = new FilteredList<>(studentsList, b -> true);
+            FilteredList<Student> filteredData = new FilteredList<>(studentsList, b -> true);
 
             // Search through the students
             searchField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -136,7 +137,7 @@ public class StudentsController extends Controller implements Initializable {
                     // Check if search keyword is in student name
                     if (studentModel.getName().toLowerCase().contains(searchKeyword)) {
                         return true;
-                    } else if (studentModel.getStudentEmail().toLowerCase().contains(searchKeyword)) {
+                    } else if (studentModel.getEmail().toLowerCase().contains(searchKeyword)) {
                         return true;
                     } else {
                         return false;
@@ -145,7 +146,7 @@ public class StudentsController extends Controller implements Initializable {
             });
 
             // Bind the sorted data with the table view
-            SortedList<StudentModel> sortedData = new SortedList<>(filteredData);
+            SortedList<Student> sortedData = new SortedList<>(filteredData);
             sortedData.comparatorProperty().bind(studentsTableView.comparatorProperty());
 
             // Load the data into the table
@@ -160,12 +161,12 @@ public class StudentsController extends Controller implements Initializable {
 
         // Add table on mouse click event
         studentsTableView.setRowFactory(tv -> {
-            TableRow<StudentModel> myRow = new TableRow<>();
+            TableRow<Student> myRow = new TableRow<>();
             myRow.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 1 && (!myRow.isEmpty())) {
                     // Set selected ID
                     selectedIndex = studentsTableView.getSelectionModel().getSelectedIndex();
-                    selectedId = Integer.parseInt(String.valueOf(studentsTableView.getItems().get(selectedIndex).getStudentId()));
+                    selectedId = studentsTableView.getItems().get(selectedIndex).getStudentId();
                 }
             });
 
@@ -175,15 +176,16 @@ public class StudentsController extends Controller implements Initializable {
 
     @FXML
     void addStudent(ActionEvent event) {
-        String email, name, gender, address, city, country, postcode;
+        String email, name, address, city, country, postcode;
         int houseNumber;
         LocalDate birthday;
+        Gender gender;
 
         // Get all the information from the form
         email = studentEmail.getText();
         name = studentName.getText();
         birthday = studentBirthday.getValue();
-        gender = studentGender.getValue().toUpperCase();
+        gender = studentGender.getValue();
         address = studentAddress.getText();
         city = studentCity.getText();
         country = studentCountry.getText();
@@ -202,7 +204,7 @@ public class StudentsController extends Controller implements Initializable {
             statement.setString(1, email);
             statement.setString(2, name);
             statement.setDate(3, Date.valueOf(birthday));
-            statement.setString(4, gender);
+            statement.setString(4, gender.toString());
             statement.setString(5, address);
             statement.setString(6, city);
             statement.setString(7, country);
@@ -243,7 +245,7 @@ public class StudentsController extends Controller implements Initializable {
         updateStudentBtn.setVisible(true);
 
         // Fill the fields with the selected Student
-        studentEmail.setText(studentsTableView.getItems().get(selectedIndex).getStudentEmail());
+        studentEmail.setText(studentsTableView.getItems().get(selectedIndex).getEmail());
         studentName.setText(studentsTableView.getItems().get(selectedIndex).getName());
         studentBirthday.setValue(studentsTableView.getItems().get(selectedIndex).getBirthday());
         studentGender.setValue(studentsTableView.getItems().get(selectedIndex).getGender());
@@ -256,15 +258,16 @@ public class StudentsController extends Controller implements Initializable {
 
     @FXML
     void updateStudent(ActionEvent event) {
-        String email, name, gender, address, city, country, postcode;
+        String email, name, address, city, country, postcode;
         int houseNumber;
         LocalDate birthday;
+        Gender gender;
 
         // Get all the information from the form
         email = studentEmail.getText();
         name = studentName.getText();
         birthday = studentBirthday.getValue();
-        gender = studentGender.getValue().toUpperCase();
+        gender = studentGender.getValue();
         address = studentAddress.getText();
         city = studentCity.getText();
         country = studentCountry.getText();
@@ -283,7 +286,7 @@ public class StudentsController extends Controller implements Initializable {
             statement.setString(1, email);
             statement.setString(2, name);
             statement.setDate(3, Date.valueOf(birthday));
-            statement.setString(4, gender);
+            statement.setString(4, gender.toString());
             statement.setString(5, address);
             statement.setString(6, city);
             statement.setString(7, country);
