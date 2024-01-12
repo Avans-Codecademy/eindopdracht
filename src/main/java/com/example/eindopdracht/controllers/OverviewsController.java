@@ -92,7 +92,6 @@ public class OverviewsController extends Controller implements Initializable {
         String query = "SELECT TOP 3 Title, COUNT(Title) AS amount FROM ContentItem JOIN ViewContentItem ON ViewContentItem.ContentItem = ContentItem.ContentItemId WHERE ContentItem.WebcastId IS NOT NULL GROUP BY Title ORDER BY amount DESC";
 
         try {
-
             Statement statement = connection.createStatement();
             ResultSet queryOutput = statement.executeQuery(query);
 
@@ -281,7 +280,7 @@ public class OverviewsController extends Controller implements Initializable {
         Connection connection = ConnectionManager.getConnection();
 
         // Get the average progress per module of the selected course
-        String query = "SELECT PercentageDone, ContentItem FROM ViewContentItem WHERE ViewContentItem.StudentEmail = ? AND ViewContentItem.ContentItem IN (SELECT ContentItemId FROM ContentItem WHERE ContentItem.Coursename = ?";
+        String query = "SELECT AVG(PercentageDone) gemiddeldePercentage FROM ViewContentItem WHERE ViewContentItem.ContentItem IN (SELECT ContentItemId FROM ContentItem WHERE Coursename = ?);";
 
         try {
             // Execute the SQL query

@@ -7,11 +7,6 @@ import javafx.stage.Stage;
 
 public class MainApplication extends Application {
     public static void main(String[] args) {
-//        Cursus test = new Cursus("testcourse", "Java");
-//        Student jan = new Student("Jan@gmail.com", "Jan", null, "Male", "3281 BM", "Rotterdam", "Netherlands", null);
-//        jan.enroll(test);
-//        System.out.println(jan.toString());
-//        System.out.println(test.toString());
         Application.launch();
     }
 
@@ -20,7 +15,7 @@ public class MainApplication extends Application {
         // Launch from fxml
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("overviews-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Codecademy");
+        stage.setTitle("Codecademy | Jacob Timmerman (2218563) - Jacky Chen (2204610) - Joep Snels (2215029) - Renze Westerink (2217105)");
         stage.setScene(scene);
         stage.show();
     }
