@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.util.regex.*;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
@@ -176,21 +177,41 @@ public class StudentsController extends Controller implements Initializable {
 
     @FXML
     void addStudent(ActionEvent event) {
-        String email, name, address, city, country, postcode;
+        String email, name, gender, address, city, country, postcode;
         int houseNumber;
         LocalDate birthday;
-        Gender gender;
 
         // Get all the information from the form
         email = studentEmail.getText();
-        name = studentName.getText();
+
+        if (!isEmailValid(email)) {
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Wrong email!");
+            alert.show();
+            return;
+        }
+        postcode = studentPostcode.getText();
+        if (!isValidPostcode(postcode)){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Postcode is wrong!");
+            alert.show();
+            return;
+        }
         birthday = studentBirthday.getValue();
-        gender = studentGender.getValue();
+        if (!isBirthdayValid(birthday)){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Not a valid birthday!");
+            alert.show();
+            return;
+        }
+        name = studentName.getText();
+        gender = studentGender.getValue().toString().toUpperCase();
         address = studentAddress.getText();
         city = studentCity.getText();
         country = studentCountry.getText();
-        postcode = studentPostcode.getText();
         houseNumber = Integer.parseInt(studentHouseNumber.getText());
+
 
         // Create the student in the database
         Connection connection = ConnectionManager.getConnection();
@@ -204,7 +225,7 @@ public class StudentsController extends Controller implements Initializable {
             statement.setString(1, email);
             statement.setString(2, name);
             statement.setDate(3, Date.valueOf(birthday));
-            statement.setString(4, gender.toString());
+            statement.setString(4, gender);
             statement.setString(5, address);
             statement.setString(6, city);
             statement.setString(7, country);
@@ -232,8 +253,31 @@ public class StudentsController extends Controller implements Initializable {
             alert.setHeaderText("Error while creating student in database!");
             alert.show();
         }
-    }
 
+    }
+    public boolean isEmailValid(String email){
+        //Regular Expression
+        if (email == null){
+            return false;
+        }
+        String regex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+        //Compile regular expression to get the pattern
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+    public boolean isValidPostcode(String postcodeToCheck) {
+        if (postcodeToCheck == null){
+            return false;
+        }
+        return postcodeToCheck.matches("[1-9]{1}[0-9]{3}\s[A-Z]{2}");
+    }
+    public boolean isBirthdayValid(LocalDate birthday){
+        return birthday != null && !birthday.isAfter(LocalDate.now()) && !birthday.isBefore(LocalDate.of(1900, 1, 1));
+    }
     @FXML
     void editStudent(ActionEvent event) {
         if (selectedId == 0) {
@@ -265,13 +309,33 @@ public class StudentsController extends Controller implements Initializable {
 
         // Get all the information from the form
         email = studentEmail.getText();
-        name = studentName.getText();
+
+        if (!isEmailValid(email)) {
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Wrong email!");
+            alert.show();
+            return;
+        }
+        postcode = studentPostcode.getText();
+        if (!isValidPostcode(postcode)){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Postcode is wrong!");
+            alert.show();
+            return;
+        }
         birthday = studentBirthday.getValue();
+        if (!isBirthdayValid(birthday)){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Not a valid birthday!");
+            alert.show();
+            return;
+        }
+        name = studentName.getText();
         gender = studentGender.getValue();
         address = studentAddress.getText();
         city = studentCity.getText();
         country = studentCountry.getText();
-        postcode = studentPostcode.getText();
         houseNumber = Integer.parseInt(studentHouseNumber.getText());
 
         // Create the student in the database

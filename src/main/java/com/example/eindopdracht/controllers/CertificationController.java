@@ -122,9 +122,13 @@ public class CertificationController extends Controller implements Initializable
         String certificationName;
 
         // Get all the information from the form
+
         certificationName = this.certificationName.getText();
 
         // Create the certification in the database
+        if (certificationName.isEmpty()){
+            return;
+        }
         Connection connection = ConnectionManager.getConnection();
 
         // SQL query

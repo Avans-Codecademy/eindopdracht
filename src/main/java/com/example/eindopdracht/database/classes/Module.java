@@ -7,10 +7,10 @@ import com.example.eindopdracht.database.classes.Enums.Status;
 public class Module extends ContentItem{
     private String emailContactPerson;
     private String nameContactPerson;
-    private String version;
-    private int orderNummer;
+    private double version;
+    private int orderNumber;
 
-    public Module(int contentItemid, LocalDate publishDate, Status status, String title, String description, String emailContactPerson, String nameContactPerson, String version, int orderNummer) {
+    public Module(int contentItemid, LocalDate publishDate, Status status, String title, String description, String emailContactPerson, String nameContactPerson, double version, int orderNummer) {
         this.contentItemid = contentItemid;
         this.publishDate = publishDate;
         this.status = status;
@@ -19,7 +19,7 @@ public class Module extends ContentItem{
         this.emailContactPerson = emailContactPerson;
         this.nameContactPerson = nameContactPerson;
         this.version = version;
-        this.orderNummer = orderNummer;
+        this.orderNumber = orderNummer;
     }
 
     public String getEmailContactPerson() {
@@ -38,20 +38,20 @@ public class Module extends ContentItem{
         this.nameContactPerson = nameContactPerson;
     }
 
-    public String getVersion() {
+    public double getVersion() {
         return version;
     }
 
-    public void setVersion(String version) {
+    public void setVersion(double version) {
         this.version = version;
     }
 
-    public int getOrderNummer() {
-        return orderNummer;
+    public int getOrderNumber() {
+        return orderNumber;
     }
 
-    public void setOrderNummer(int orderNummer) {
-        this.orderNummer = orderNummer;
+    public void setOrderNumber(int orderNumber) {
+        this.orderNumber = orderNumber;
     }
 
     
