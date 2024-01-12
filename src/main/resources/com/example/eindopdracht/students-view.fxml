@@ -15,18 +15,18 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="775.0" prefWidth="1467.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.eindopdracht.controllers.StudentsController">
    <left>
-      <VBox prefHeight="400.0" prefWidth="111.0" spacing="16.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="718.0" prefWidth="141.0" spacing="16.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#switchToStudents" text="Students" />
-            <Button mnemonicParsing="false" onAction="#switchToCourses" text="Courses" />
-            <Button mnemonicParsing="false" onAction="#switchToEntries" text="Entries" />
-            <Button mnemonicParsing="false" onAction="#switchToCertifications" text="Certifications" />
+            <Button mnemonicParsing="false" onAction="#switchToStudents" prefHeight="25.0" prefWidth="139.0" style="-fx-background-color: #67BED9;" text="Students" />
+            <Button mnemonicParsing="false" onAction="#switchToCourses" prefHeight="25.0" prefWidth="152.0" style="-fx-background-color: #67BED9;" text="Courses" />
+            <Button mnemonicParsing="false" onAction="#switchToEntries" prefHeight="25.0" prefWidth="187.0" style="-fx-background-color: #67BED9;" text="Entries" />
+            <Button mnemonicParsing="false" onAction="#switchToCertifications" prefHeight="25.0" prefWidth="161.0" style="-fx-background-color: #67BED9;" text="Certifications" />
          </children>
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
          <padding>
-            <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+            <Insets bottom="8.0" left="8.0" right="8.0" />
          </padding>
          <BorderPane.margin>
             <Insets right="8.0" />
@@ -63,11 +63,11 @@
                   <TableColumn fx:id="nameCol" prefWidth="114.0" text="Name" />
                   <TableColumn fx:id="birthdayCol" prefWidth="99.0" text="Birthday" />
                   <TableColumn fx:id="genderCol" prefWidth="58.0" text="Gender" />
-                  <TableColumn fx:id="addressCol" prefWidth="144.0" text="Address" />
-                  <TableColumn fx:id="cityCol" prefWidth="140.0" text="City" />
-                  <TableColumn fx:id="countryCol" prefWidth="129.0" text="Country" />
-                  <TableColumn fx:id="postcodeCol" prefWidth="100.0" text="Postcode" />
-                  <TableColumn fx:id="houseNumberCol" prefWidth="89.0" text="House Number" />
+                  <TableColumn fx:id="addressCol" prefWidth="120.0" text="Address" />
+                  <TableColumn fx:id="cityCol" prefWidth="132.0" text="City" />
+                  <TableColumn fx:id="countryCol" prefWidth="121.0" text="Country" />
+                  <TableColumn fx:id="postcodeCol" minWidth="0.0" prefWidth="103.0" text="Postcode" />
+                  <TableColumn fx:id="houseNumberCol" prefWidth="95.0" text="House Number" />
               </columns>
             </TableView>
             <HBox prefHeight="391.0" prefWidth="1070.0" />
