@@ -44,6 +44,10 @@ public class StudentsController implements Initializable {
     private TableColumn<StudentModel, String> houseNumberCol;
     @FXML
     private TextField searchField;
+    @FXML
+    private Button createStudentBtn;
+    @FXML
+    private Button updateStudentBtn;
 
     @FXML
     private TextField studentAddress;
@@ -56,7 +60,7 @@ public class StudentsController implements Initializable {
     @FXML
     private TextField studentEmail;
     @FXML
-    private TextField studentGender;
+    private ComboBox<String> studentGender;
     @FXML
     private TextField studentName;
     @FXML
@@ -69,6 +73,9 @@ public class StudentsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Set items for gender ComboBox
+        studentGender.setItems(FXCollections.observableArrayList("MALE", "FEMALE", "OTHER"));
+
         loadTable();
     }
 
@@ -127,7 +134,9 @@ public class StudentsController implements Initializable {
                     String searchKeyword = newValue.toLowerCase();
 
                     // Check if search keyword is in student name
-                    if (studentModel.getName().toLowerCase().indexOf(searchKeyword) > -1) {
+                    if (studentModel.getName().toLowerCase().contains(searchKeyword)) {
+                        return true;
+                    } else if (studentModel.getStudentEmail().toLowerCase().contains(searchKeyword)) {
                         return true;
                     } else {
                         return false;
@@ -174,7 +183,7 @@ public class StudentsController implements Initializable {
         email = studentEmail.getText();
         name = studentName.getText();
         birthday = studentBirthday.getValue();
-        gender = studentGender.getText();
+        gender = studentGender.getValue().toUpperCase();
         address = studentAddress.getText();
         city = studentCity.getText();
         country = studentCountry.getText();
@@ -185,7 +194,7 @@ public class StudentsController implements Initializable {
         Connection connection = ConnectionManager.getConnection();
 
         // SQL query
-        String query = "INSERT INTO Student(studentId, studentEmail,name,birthday,gender,address,city,country,postcode,houseNumber) VALUES(3, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        String query = "INSERT INTO Student(studentEmail,name,birthday,gender,address,city,country,postcode,houseNumber) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
         try {
             // Execute the SQL query
@@ -209,15 +218,7 @@ public class StudentsController implements Initializable {
             alert.showAndWait();
 
             // Reset values of the inputs
-            studentEmail.setText("");
-            studentName.setText("");
-            studentBirthday.setValue(null);
-            studentGender.setText("");
-            studentAddress.setText("");
-            studentCity.setText("");
-            studentCountry.setText("");
-            studentPostcode.setText("");
-            studentHouseNumber.setText("");
+            resetValues();
 
             // Reload table
             loadTable();
@@ -237,16 +238,99 @@ public class StudentsController implements Initializable {
             return;
         }
 
+        // Hide create button & show edit button
+        createStudentBtn.setVisible(false);
+        updateStudentBtn.setVisible(true);
+
         // Fill the fields with the selected Student
         studentEmail.setText(studentsTableView.getItems().get(selectedIndex).getStudentEmail());
         studentName.setText(studentsTableView.getItems().get(selectedIndex).getName());
         studentBirthday.setValue(studentsTableView.getItems().get(selectedIndex).getBirthday());
-        studentGender.setText(studentsTableView.getItems().get(selectedIndex).getGender());
+        studentGender.setValue(studentsTableView.getItems().get(selectedIndex).getGender());
         studentAddress.setText(studentsTableView.getItems().get(selectedIndex).getAddress());
         studentCity.setText(studentsTableView.getItems().get(selectedIndex).getCity());
         studentCountry.setText(studentsTableView.getItems().get(selectedIndex).getCountry());
         studentPostcode.setText(studentsTableView.getItems().get(selectedIndex).getPostcode());
         studentHouseNumber.setText(String.valueOf(studentsTableView.getItems().get(selectedIndex).getHouseNumber()));
+    }
+
+    @FXML
+    void updateStudent(ActionEvent event) {
+        String email, name, gender, address, city, country, postcode;
+        int houseNumber;
+        LocalDate birthday;
+
+        // Get all the information from the form
+        email = studentEmail.getText();
+        name = studentName.getText();
+        birthday = studentBirthday.getValue();
+        gender = studentGender.getValue().toUpperCase();
+        address = studentAddress.getText();
+        city = studentCity.getText();
+        country = studentCountry.getText();
+        postcode = studentPostcode.getText();
+        houseNumber = Integer.parseInt(studentHouseNumber.getText());
+
+        // Create the student in the database
+        Connection connection = ConnectionManager.getConnection();
+
+        // SQL query
+        String query = "UPDATE Student SET studentEmail=?, name=?, birthday=?, gender=?, address=?, city=?, country=?, postcode=?, houseNumber=? WHERE studentId = ?;";
+
+        try {
+            // Execute the SQL query
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, email);
+            statement.setString(2, name);
+            statement.setDate(3, Date.valueOf(birthday));
+            statement.setString(4, gender);
+            statement.setString(5, address);
+            statement.setString(6, city);
+            statement.setString(7, country);
+            statement.setString(8, postcode);
+            statement.setInt(9, houseNumber);
+            statement.setInt(10, selectedId);
+
+            statement.executeUpdate();
+
+            // Send alert to the user
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Student successfully updated!");
+
+            alert.showAndWait();
+
+            // Reload table
+            loadTable();
+
+        } catch (SQLException exception) {
+            System.out.println(exception.getMessage());
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Error while updating student in database!");
+            alert.show();
+        }
+
+        // Hide update button & show create button
+        updateStudentBtn.setVisible(false);
+        createStudentBtn.setVisible(true);
+
+        // Reset values of the inputs
+        resetValues();
+    }
+
+    private void resetValues() {
+        studentEmail.setText("");
+        studentName.setText("");
+        studentBirthday.setValue(null);
+        studentGender.setValue(null);
+        studentAddress.setText("");
+        studentCity.setText("");
+        studentCountry.setText("");
+        studentPostcode.setText("");
+        studentHouseNumber.setText("");
+
+        selectedId = 0;
+        selectedIndex = 0;
     }
 
     @FXML
