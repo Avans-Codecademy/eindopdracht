@@ -24,8 +24,14 @@ public class Course {
         this.interestingCourses = new ArrayList<Course>();
     }
 
-    public void finishCourse() {
-        
+    public void finishModule(Module module) {
+        Boolean var = completed.get(module);
+        if (var = false) {
+            completed.put(module, true);
+
+        } else if (var = true){
+            System.out.println("Module already completed");
+        }
     }
 
     public void addmodule(Module name) {

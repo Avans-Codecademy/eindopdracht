@@ -1,6 +1,7 @@
 package com.example.eindopdracht.database.classes;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 
 import com.example.eindopdracht.database.classes.Enums.Gender;
@@ -17,11 +18,12 @@ public class Student {
     private String housenumber;
     private ArrayList<Course> courses;
 
-    public Student(String email, String name, LocalDate birthdate, Gender gender, String address, String city,
+    public Student(String email, String name, int year, Month string, int day, Gender gender, String address, String city,
             String country, String postalcode, String housenumber, ArrayList<Course> courses) {
+        LocalDate put = LocalDate.of(year, string, day);
         this.email = email;
         this.name = name;
-        this.birthdate = birthdate;
+        this.birthdate = put;
         this.gender = gender;
         this.address = address;
         this.city = city;

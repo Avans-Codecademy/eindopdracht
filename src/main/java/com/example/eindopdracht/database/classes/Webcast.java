@@ -30,6 +30,8 @@ public class Webcast extends ContentItem{
         this.speakerOrganisation = speakerOrganisation;
     }
 
+
+
     public int getDuration() {
         return duration;
     }
