@@ -17,7 +17,7 @@ import java.sql.*;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class CertificationController implements Initializable {
+public class CertificationController extends Controller implements Initializable {
     @FXML
     private TableView<Certification> certificationsTableView;
 

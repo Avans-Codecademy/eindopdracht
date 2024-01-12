@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class EntriesController implements Initializable {
+public class EntriesController extends Controller implements Initializable {
     @FXML
     private TableView<Entry> entriesTableView;
 

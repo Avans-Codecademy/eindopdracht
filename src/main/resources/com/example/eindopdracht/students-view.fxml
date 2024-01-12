@@ -17,10 +17,10 @@
    <left>
       <VBox prefHeight="400.0" prefWidth="111.0" spacing="16.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" text="Students" />
-            <Button mnemonicParsing="false" text="Courses" />
-            <Button mnemonicParsing="false" text="Entries" />
-            <Button mnemonicParsing="false" text="Certifications" />
+            <Button mnemonicParsing="false" onAction="#switchToStudents" text="Students" />
+            <Button mnemonicParsing="false" onAction="#switchToCourses" text="Courses" />
+            <Button mnemonicParsing="false" onAction="#switchToEntries" text="Entries" />
+            <Button mnemonicParsing="false" onAction="#switchToCertifications" text="Certifications" />
          </children>
          <opaqueInsets>
             <Insets />

@@ -18,7 +18,7 @@ import java.sql.*;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class CoursesController implements Initializable {
+public class CoursesController extends Controller implements Initializable {
     @FXML
     private TableView<Course> coursesTableView;
 

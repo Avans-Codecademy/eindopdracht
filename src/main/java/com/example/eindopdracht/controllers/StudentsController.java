@@ -18,7 +18,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class StudentsController implements Initializable {
+public class StudentsController extends Controller implements Initializable {
 
     @FXML
     private TableView<StudentModel> studentsTableView;
