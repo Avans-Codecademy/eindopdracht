@@ -1,6 +1,7 @@
 package com.example.eindopdracht.database.classes;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.example.eindopdracht.database.classes.Enums.Level;
 
@@ -11,6 +12,7 @@ public class Course {
     private Level level;
     private ArrayList<Module> modules;
     private ArrayList<Course> interestingCourses;
+    private HashMap<Module,Boolean> completed;
 
     public Course(String name, String subject, String introductiontext, Level level, ArrayList<Module> modules, ArrayList<Course> interestingCourses) {
         this.name = name;
@@ -21,8 +23,15 @@ public class Course {
         this.interestingCourses = new ArrayList<Course>();
     }
 
-    public void addmodule(Module contentitemID) {
-        modules.add(contentitemID);
+    public void finishCourse() {
+        
+    }
+
+    public void addmodule(Module name) {
+        //figure out how to get all modules, exclude those where coursename is not null
+        //possibly save all modules first in a seperate list
+        while (true) {   
+        }
     }
 
      public void addInterestingCourses(Course name) {
@@ -78,6 +87,6 @@ public class Course {
 
     @Override
     public String toString() {
-        return "Cursus name:" + name + ", Subject:" + subject + ", Introductiontext:" + introductiontext + ", Level" + level;
+        return "Cursus name:" + name + ", Subject:" + subject + ", Introductiontext:" + introductiontext + ", Level:" + level + ", modules:" + modules;
     }
 }

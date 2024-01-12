@@ -9,7 +9,15 @@ public class Webcast extends ContentItem{
     private String url;
     private String speakerName;
     private String speakerOrganisation;
-
+    private int percentageWatched;
+    
+    public int progress() {
+        return percentageWatched;
+    }
+    //method to increase percentage that is watched by amount
+    public void increasePercentageWatcjed(int add) {
+        percentageWatched = percentageWatched + add;
+    }
     public Webcast(int contentItemid, LocalDate publishDate, Status status, String title, String description,int duration, String url, String speakerName, String speakerOrganisation) {
         this.contentItemid = contentItemid;
         this.publishDate = publishDate;
@@ -52,6 +60,14 @@ public class Webcast extends ContentItem{
 
     public void setSpeakerOrganisation(String speakerOrganisation) {
         this.speakerOrganisation = speakerOrganisation;
+    }
+
+    public int getPercentageWatched() {
+        return percentageWatched;
+    }
+
+    public void setPercentageWatched(int percentageWatched) {
+        this.percentageWatched = percentageWatched;
     }
 
     

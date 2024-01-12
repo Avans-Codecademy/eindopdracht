@@ -13,10 +13,12 @@ public class Student {
     private String address;
     private String city;
     private String country;
+    private String postalcode;
+    private String housenumber;
     private ArrayList<Course> courses;
 
     public Student(String email, String name, LocalDate birthdate, Gender gender, String address, String city,
-            String country, ArrayList<Course> courses) {
+            String country, String postalcode, String housenumber, ArrayList<Course> courses) {
         this.email = email;
         this.name = name;
         this.birthdate = birthdate;
@@ -24,11 +26,46 @@ public class Student {
         this.address = address;
         this.city = city;
         this.country = country;
+        this.postalcode = postalcode;
+        this.housenumber = housenumber;
         this.courses = new ArrayList<Course>();
     }
 
-    public void enroll(Course name) {
-        courses.add(name);
+    //method to check if postalcode format is correct
+    public Boolean checkPostal(String postalcode) throws Exception {
+        //checks length, dutch postal is 7 with the space
+        if (postalcode.length() == 7) {
+            String test = postalcode.substring(0, 3);
+            try {
+                Double.parseDouble(test);
+            } catch (NumberFormatException nfe) {
+                return false;
+            }
+            //check if the space is in the correct position and if its a space
+            if (postalcode.substring(4,4) == " ") {
+                //check if the last 2 chars are letters
+                String test2 = postalcode.substring(5,6);
+                //check if the last 2 letters are uppercase
+                if(Character.isLetter(test2.charAt(0)) && Character.isLetter(test2.charAt(1))){
+                    char hold1 = test2.charAt(0);
+                    char hold2 = test2.charAt(1);
+                    char holdtest1 = Character.toUpperCase(hold1);
+                    char holdtest2 = Character.toUpperCase(hold2);
+                    if (hold1 == holdtest1 && hold2 == holdtest2) {
+                        return true;
+                    }
+                    else{
+                        return false;
+                    }
+                };
+            }
+        }
+        return null;
+    } 
+    
+
+    public void enroll(Course course) {
+        courses.add(course);
     }
 
     @Override
@@ -95,6 +132,30 @@ public class Student {
 
     public ArrayList<Course> getCursusen() {
         return courses;
+    }
+
+    public String getPostalcode() {
+        return postalcode;
+    }
+
+    public void setPostalcode(String postalcode) {
+        this.postalcode = postalcode;
+    }
+
+    public String getHousenumber() {
+        return housenumber;
+    }
+
+    public void setHousenumber(String housenumber) {
+        this.housenumber = housenumber;
+    }
+
+    public ArrayList<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(ArrayList<Course> courses) {
+        this.courses = courses;
     }
 
 }

@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 import com.example.eindopdracht.database.classes.Enums.Status;
 
-public abstract class  ContentItem {
+public abstract class  ContentItem implements Progression{
     protected int contentItemid;
     protected LocalDate publishDate;
     protected Status status;
