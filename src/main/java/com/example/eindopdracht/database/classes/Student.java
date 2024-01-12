@@ -34,7 +34,7 @@ public class Student {
     @Override
     public String toString() {
         return "Student: email" + email + ", name:" + name + ", birthdate:" + birthdate + ", gender:" + gender
-                + ", address:" + address + ", city:" + city + ", country:" + country + ", Cursusen:" + courses;
+                + ", address:" + address + ", city:" + city + ", country:" + country + ", Courses:" + courses;
     }
 
     public String getEmail() {

@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 
 public class MainApplication extends Application {
     public static void main(String[] args) {
-//        Cursus test = new Cursus("testcourse", "Java");
+//        Course test = new Course("testcourse", "Java");
 //        Student jan = new Student("Jan@gmail.com", "Jan", null, "Male", "3281 BM", "Rotterdam", "Netherlands", null);
 //        jan.enroll(test);
 //        System.out.println(jan.toString());

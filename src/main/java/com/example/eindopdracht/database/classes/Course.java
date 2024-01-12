@@ -7,34 +7,34 @@ import com.example.eindopdracht.database.classes.Enums.Level;
 public class Course {
     private String name;
     private String subject;
-    private String introductiontext;
+    private String introductionText;
     private Level level;
     private ArrayList<Module> modules;
     private ArrayList<Course> interestingCourses;
 
-    public Course(String name, String subject, String introductiontext, Level level, ArrayList<Module> modules, ArrayList<Course> interestingCourses) {
+    public Course(String name, String subject, String introductionText, Level level) {
         this.name = name;
         this.subject = subject;
-        this.introductiontext = introductiontext;
+        this.introductionText = introductionText;
         this.level = level;
         this.modules = new ArrayList<Module>();
         this.interestingCourses = new ArrayList<Course>();
     }
 
-    public void addmodule(Module contentitemID) {
-        modules.add(contentitemID);
+    public void addModule(Module module) {
+        modules.add(module);
     }
 
      public void addInterestingCourses(Course name) {
         interestingCourses.add(name);
     }
 
-    public String getIntroductiontext() {
-        return introductiontext;
+    public String getIntroductionText() {
+        return introductionText;
     }
 
-    public void setIntroductiontext(String introductiontext) {
-        this.introductiontext = introductiontext;
+    public void setIntroductionText(String introductionText) {
+        this.introductionText = introductionText;
     }
 
     public Level getLevel() {
@@ -78,6 +78,6 @@ public class Course {
 
     @Override
     public String toString() {
-        return "Cursus name:" + name + ", Subject:" + subject + ", Introductiontext:" + introductiontext + ", Level" + level;
+        return "Cursus name:" + name + ", Subject:" + subject + ", Introductiontext:" + introductionText + ", Level" + level;
     }
 }
