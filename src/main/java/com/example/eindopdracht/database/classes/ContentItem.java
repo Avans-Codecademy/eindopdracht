@@ -11,6 +11,7 @@ public abstract class  ContentItem implements Progression{
     protected String title;
     protected String description;
 
+    //all just getters and setters
     public int getContentItemid() {
         return contentItemid;
     }

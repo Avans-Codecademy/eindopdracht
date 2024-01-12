@@ -11,6 +11,7 @@ public class Webcast extends ContentItem{
     private String speakerOrganisation;
     private int percentageWatched;
     
+    // from interface progress, returns progress as percentageWatched
     public int progress() {
         return percentageWatched;
     }
@@ -18,6 +19,8 @@ public class Webcast extends ContentItem{
     public void increasePercentageWatcjed(int add) {
         percentageWatched = percentageWatched + add;
     }
+
+    //constructor of webcast
     public Webcast(int contentItemid, LocalDate publishDate, Status status, String title, String description,int duration, String url, String speakerName, String speakerOrganisation) {
         this.contentItemid = contentItemid;
         this.publishDate = publishDate;
@@ -31,7 +34,7 @@ public class Webcast extends ContentItem{
     }
 
 
-
+    //getter and setters
     public int getDuration() {
         return duration;
     }
@@ -71,6 +74,6 @@ public class Webcast extends ContentItem{
     public void setPercentageWatched(int percentageWatched) {
         this.percentageWatched = percentageWatched;
     }
-
+    //end getter setters
     
 }
