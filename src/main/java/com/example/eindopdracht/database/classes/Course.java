@@ -3,8 +3,6 @@ package com.example.eindopdracht.database.classes;
 import java.util.ArrayList;
 import java.util.HashMap;
 import com.example.eindopdracht.database.classes.Enums.Level;
-import com.example.eindopdracht.database.classes.Module;
-
 public class Course {
     private String name;
     private String subject;
@@ -36,20 +34,21 @@ public class Course {
     }
 
 
-    //gets all available modules and then sees if 
+    //gets all available modules and then sees if the method is one of them, and then add it to the modules of course
     public void addModule(Module module) {
-        ArrayList<Module> holder = getAllModules().getAvailableModule();
-        if (holder.contains(holder)) {
+        ArrayList<Module> holder = Module.getAllModules();
+        ArrayList<Module> test = getAvailableModule(holder);
+        if (test.contains(module)) {
             modules.add(module);
             module.setCourse(name);
         }
     }
 
     //method to get all modules with no course
-    private ArrayList<Module> getAvailableModule(ArrayList<Module> allmModules) {
+    static ArrayList<Module> getAvailableModule(ArrayList<Module> allModules) {
         ArrayList<Module> available = new ArrayList<Module>();
-        for (int index = 0; index < getAllModules().length; index++) {
-            Module temp = getAllModules(index);
+        for (int index = 0; index < Module.getAllModules().size(); index++) {
+            Module temp = Module.getAllModules().get(index);
             String check = temp.getCourse();
             if(check == null){
                 available.add(temp);
