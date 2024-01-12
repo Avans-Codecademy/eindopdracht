@@ -11,6 +11,7 @@ import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.sql.*;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -86,19 +87,77 @@ public class OverviewsController extends Controller implements Initializable {
     }
 
     public void getTop3MostWatchedWebcasts() {
-        // TODO: Add the query
+        // SQL query
+        Connection connection = ConnectionManager.getConnection();
+        String query = "SELECT TOP 3 Title, COUNT(Title) AS amount FROM ContentItem JOIN ViewContentItem ON ViewContentItem.ContentItem = ContentItem.ContentItemId WHERE ContentItem.WebcastId IS NOT NULL GROUP BY Title ORDER BY amount DESC";
 
-        mostWatched1.setText("1. Test1");
-        mostWatched2.setText("2. Test2");
-        mostWatched3.setText("3. Test3");
+        try {
+
+            Statement statement = connection.createStatement();
+            ResultSet queryOutput = statement.executeQuery(query);
+
+            int positionCount = 1;
+
+            while (queryOutput.next()) {
+                if (positionCount == 1) {
+                    mostWatched1.setText("1. " +
+                            queryOutput.getString("Title") + " - Amount: " + queryOutput.getString("amount"));
+                } else if (positionCount == 2) {
+                    mostWatched2.setText("2. " +
+                            queryOutput.getString("Title") + " - Amount: " + queryOutput.getString("amount"));
+                } else if (positionCount == 3) {
+                    mostWatched3.setText("3. " +
+                            queryOutput.getString("Title") + " - Amount: " + queryOutput.getString("amount"));
+                }
+                positionCount++;
+            }
+
+        } catch (SQLException exception) {
+
+            System.out.println(exception.getMessage());
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Error while retrieving data from database!");
+            alert.show();
+        }
+
     }
 
     public void getTop3MostIssuesCertificates() {
-        // TODO: Add the query
 
-        mostIssued1.setText("1. Test1");
-        mostIssued2.setText("2. Test2");
-        mostIssued3.setText("3. Test3");
+        Connection connection = ConnectionManager.getConnection();
+        String query = "SELECT TOP 3 CourseName, COUNT(CourseName) AS amount FROM Entry JOIN ObtainedCertification ON Entry.EntryId = ObtainedCertification.EntryId GROUP BY CourseName ORDER BY amount DESC";
+
+        try {
+
+            Statement statement = connection.createStatement();
+            ResultSet queryOutput = statement.executeQuery(query);
+
+            int positionCount = 1;
+
+            while (queryOutput.next()) {
+                if (positionCount == 1) {
+                    mostIssued1.setText(
+                            queryOutput.getString("CourseName") + " - Amount: " + queryOutput.getString("amount"));
+                } else if (positionCount == 2) {
+                    mostIssued2.setText(
+                            queryOutput.getString("CourseName") + " - Amount: " + queryOutput.getString("amount"));
+                } else if (positionCount == 3) {
+                    mostIssued3.setText(
+                            queryOutput.getString("CourseName") + " - Amount: " + queryOutput.getString("amount"));
+                }
+                positionCount++;
+            }
+
+        } catch (SQLException exception) {
+
+            System.out.println(exception.getMessage());
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Error while retrieving data from database!");
+            alert.show();
+        }
+
     }
 
     public void loadCourses() {
@@ -169,35 +228,41 @@ public class OverviewsController extends Controller implements Initializable {
         Connection connection = ConnectionManager.getConnection();
 
         // Get the total amount of signed courses
-        String query1 = "SELECT COUNT(StudentId) AS countAll FROM Student WHERE Student.StudentEmail = (SELECT StudentEmail FROM Entry WHERE Entry.StudentEmail = (SELECT EntryId FROM ObtainedCertification));";
+        String query1 = "SELECT COUNT(StudentID) AS countTotaal FROM Student WHERE Student.StudentEmail IN (SELECT StudentEmail FROM Entry) AND Student.Gender = ? ;";
 
         // Get the total amount of signed courses for the selected gender
-        String query2 = "SELECT COUNT(StudentId) AS countAll FROM Student WHERE Student.StudentEmail = (SELECT StudentEmail FROM Entry WHERE Entry.StudentEmail = (SELECT EntryId FROM ObtainedCertification) AND Student.Gender = ?);";
+        String query2 = "SELECT COUNT(StudentId) AS countBehaald FROM Student WHERE Student.StudentEmail IN (SELECT StudentEmail FROM Entry WHERE Entry.EntryId IN (SELECT EntryId FROM ObtainedCertification) AND Student.Gender = ? );";
 
         try {
             // Execute the SQL query
-            Statement statement1 = connection.createStatement();
-            ResultSet queryOutput1 = statement1.executeQuery(query1);
+            PreparedStatement statement1 = connection.prepareStatement(query1);
+            statement1.setString(1, selectedGender.toString());
+            ResultSet queryOutput1 = statement1.executeQuery();
 
             PreparedStatement statement2 = connection.prepareStatement(query2);
             statement2.setString(1, selectedGender.toString());
             ResultSet queryOutput2 = statement2.executeQuery();
 
             // Get the total amount of signed courses
-            if(queryOutput1.next()) {
-                int count = queryOutput1.getInt(1);
-                System.out.println(count);
+            int totalSignedIn = 0;
+            if (queryOutput1.next()) {
+                totalSignedIn = queryOutput1.getInt(1);
             }
 
             // Get the total amount of signed courses for the selected gender
-            if(queryOutput2.next()) {
-                int count = queryOutput1.getInt(1);
-                System.out.println(count);
+            int totalSignPerGender = 0;
+            if (queryOutput2.next()) {
+                totalSignPerGender = queryOutput2.getInt(1);
             }
 
-            // Set result in text
+            // Formater to make it a bit neater
+            DecimalFormat df = new DecimalFormat("0.00");
+
+            // The percentage can be calculated by dividing the part by the whole and doing
+            // that times a 100.
             double percentage = 0.00;
-            percentageSignedUp.setText(percentage+"%");
+            percentage = ((totalSignPerGender * 1.0) / totalSignedIn) * 100;
+            percentageSignedUp.setText(df.format(percentage) + "%");
 
         } catch (SQLException exception) {
             System.out.println(exception.getMessage());
@@ -216,7 +281,7 @@ public class OverviewsController extends Controller implements Initializable {
         Connection connection = ConnectionManager.getConnection();
 
         // Get the average progress per module of the selected course
-        String query = "SELECT AVG(PercentageDone) gemiddeldePercentage FROM ViewContentItem WHERE ViewContentItem.ContentItem = (SELECT ContentItemId FROM ContentItem WHERE Coursename = ?);";
+        String query = "SELECT PercentageDone, ContentItem FROM ViewContentItem WHERE ViewContentItem.StudentEmail = ? AND ViewContentItem.ContentItem IN (SELECT ContentItemId FROM ContentItem WHERE ContentItem.Coursename = ?";
 
         try {
             // Execute the SQL query
@@ -225,12 +290,11 @@ public class OverviewsController extends Controller implements Initializable {
             ResultSet queryOutput = statement.executeQuery();
 
             // Get the average progress per module of the selected course
-            if(queryOutput.next()) {
+            if (queryOutput.next()) {
                 double percentage = queryOutput.getDouble(1);
-                System.out.println(percentage);
 
                 // Set result in text
-                averageProgressCourse.setText(percentage+"%");
+                averageProgressCourse.setText(percentage + "%");
             }
 
         } catch (SQLException exception) {
@@ -251,7 +315,7 @@ public class OverviewsController extends Controller implements Initializable {
         Connection connection = ConnectionManager.getConnection();
 
         // Get the average progress per module of the selected student and course
-        String query = "SELECT PercentageDone FROM ViewContentItem WHERE ViewContentItem.StudentEmail = ? AND ViewContentItem.ContentItem = (SELECT ContentItemId FROM ContentItem WHERE ContentItem.Coursename = ?);";
+        String query = "SELECT PercentageDone, ContentItem FROM ViewContentItem WHERE ViewContentItem.StudentEmail = ? AND ViewContentItem.ContentItem IN (SELECT ContentItemId FROM ContentItem WHERE ContentItem.Coursename = ? );";
 
         try {
             // Execute the SQL query
@@ -260,14 +324,21 @@ public class OverviewsController extends Controller implements Initializable {
             statement.setString(2, selectedCourseName);
             ResultSet queryOutput = statement.executeQuery();
 
-            // Get the average progress per module of the selected student and course
-            if(queryOutput.next()) {
-                double percentage = queryOutput.getDouble(1);
-                System.out.println(percentage);
+            // Get the obtained certificates of the selected user
+            StringBuilder modulesStringBuilder = new StringBuilder();
 
-                // Set result in text
-                averageProgressStudent.setText(percentage+"%");
+            if (!queryOutput.next()) {
+                modulesStringBuilder.append("Student has not opend any modules connected to this course!");
             }
+
+            while (queryOutput.next()) {
+                modulesStringBuilder.append("ContentItemId: ").append(queryOutput.getString("ContentItem"))
+                        .append(" = ")
+                        .append(queryOutput.getString("PercentageDone")).append("%\n");
+            }
+
+            // Set result in text
+            averageProgressStudent.setText(modulesStringBuilder.toString());
 
         } catch (SQLException exception) {
             System.out.println(exception.getMessage());
@@ -320,7 +391,7 @@ public class OverviewsController extends Controller implements Initializable {
         Connection connection = ConnectionManager.getConnection();
 
         // Get the recommended courses from the selected course
-        String query = "SELECT * FROM Course WHERE Course.CourseName = ( SELECT RecommendedCourse FROM Recommendation WHERE Recommendation.Recommender = ?);";
+        String query = "SELECT * FROM Course WHERE Course.CourseName IN ( SELECT RecommendedCourse FROM Recommendation WHERE Recommendation.Recommender = ?);";
 
         try {
             // Execute the SQL query
@@ -353,8 +424,8 @@ public class OverviewsController extends Controller implements Initializable {
 
         Connection connection = ConnectionManager.getConnection();
 
-        // Get number of students who completed the selected cours
-        String query = "SELECT COUNT(StudentEmail) as studentenBehaald FROM Entry WHERE Entry.EntryId = ( SELECT EntryId FROM ObtainedCertification) AND Entry.CourseName = ?;";
+        // Get number of students who completed the selected course
+        String query = "SELECT COUNT(StudentEmail) as studentenBehaald FROM Entry WHERE Entry.EntryId IN (SELECT EntryId FROM ObtainedCertification) AND Entry.CourseName = ? ;";
 
         try {
             // Execute the SQL query
@@ -362,13 +433,12 @@ public class OverviewsController extends Controller implements Initializable {
             statement.setString(1, selectedCourse);
             ResultSet queryOutput = statement.executeQuery();
 
-            // Get number of students who completed the selected cours
-            if(queryOutput.next()) {
+            // Get number of students who completed the selected course
+            if (queryOutput.next()) {
                 int count = queryOutput.getInt(1);
-                System.out.println(count);
 
                 // Set result in text
-                averageProgressStudent.setText(count+"x");
+                numberCompletedCourses.setText(count + " have compleated this course!");
             }
 
         } catch (SQLException exception) {

@@ -46,7 +46,7 @@
          <children>
             <VBox prefHeight="56.0" prefWidth="1318.0" spacing="4.0">
                <children>
-                  <Label text="Procentage of students that are signed up">
+                  <Label text="Precentage of students that are signed up">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -73,7 +73,7 @@
             </VBox>
             <VBox layoutX="10.0" layoutY="93.0" prefHeight="52.0" prefWidth="1318.0" spacing="4.0">
                <children>
-                  <Label text="Average progress per module">
+                  <Label text="Progress per module">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -124,7 +124,7 @@
             </VBox>
             <VBox layoutX="10.0" layoutY="93.0" prefHeight="52.0" prefWidth="1318.0" spacing="4.0">
                <children>
-                  <Label text="Remmended courses">
+                  <Label text="Recommended courses">
                      <font>
                         <Font size="14.0" />
                      </font>
