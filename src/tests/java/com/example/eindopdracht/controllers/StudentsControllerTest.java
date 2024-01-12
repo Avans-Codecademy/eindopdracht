@@ -133,6 +133,18 @@ class StudentsControllerTest {
         assertFalse(studentsController.isValidPostcode(postcode));
     }
     @Test
+    void isPostcodeValidNoUppercase(){
+        String postcode = "6758 rz";
+        StudentsController studentsController = new StudentsController();
+
+
+        //Act
+        studentsController.isValidPostcode(postcode);
+
+        //Assert
+        assertFalse(studentsController.isValidPostcode(postcode));
+    }
+    @Test
     void isPostcodeValidValid(){
         //Arrange
         String postcode = "6758 RZ";

@@ -275,7 +275,7 @@ public class StudentsController implements Initializable {
         if (postcodeToCheck == null){
             return false;
         }
-        return postcodeToCheck.matches("[1-9]{1}[0-9]{3}\s[a-zA-Z]{2}");
+        return postcodeToCheck.matches("[1-9]{1}[0-9]{3}\s[A-Z]{2}");
     }
     public boolean isBirthdayValid(LocalDate birthday){
         return birthday != null && !birthday.isAfter(LocalDate.now()) && !birthday.isBefore(LocalDate.of(1900, 1, 1));
